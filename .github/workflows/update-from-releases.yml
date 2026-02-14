@@ -1,0 +1,81 @@
+# Poll monitored plugin repos for new releases and update repo.json.
+# Runs on schedule and can be triggered manually (workflow_dispatch).
+# Add more repos to the plugins list below as needed.
+
+name: Update repo from plugin releases
+
+on:
+  schedule:
+    # Every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-repo-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest releases and update repo.json
+        env:
+          # List of plugins to monitor: "InternalName|Owner/Repo|ZipFileNamePattern" (use {tag} for release tag e.g. v0.1.0)
+          PLUGINS: |
+            EasyPartySort|tenyu27/EasyPartySort|EasyPartySort-{tag}.zip
+        run: |
+          set -e
+          UPDATED=0
+          for line in $(echo "$PLUGINS" | grep '|'); do
+            IFS='|' read -r internalName repo zipPattern <<< "$line"
+            echo "Checking $repo ($internalName)..."
+            release=$(curl -s "https://api.github.com/repos/$repo/releases/latest")
+            tag=$(echo "$release" | jq -r .tag_name)
+            if [ "$tag" = "null" ] || [ -z "$tag" ]; then echo "  No release found"; continue; fi
+            published=$(echo "$release" | jq -r .published_at)
+            ts=$(date -d "$published" +%s 2>/dev/null || echo "0")
+            zipName=$(echo "$zipPattern" | sed "s|{tag}|$tag|g")
+            zipUrl="https://github.com/$repo/releases/download/$tag/$zipName"
+            # Tag v0.1.0 -> AssemblyVersion 0.1.0.0
+            ver=$(echo "$tag" | sed 's/^v//' | sed 's/-.*//')
+            if echo "$ver" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+              assemblyVersion="${ver}.0"
+            else
+              assemblyVersion="${ver}.0.0.0"
+            fi
+            currentVer=$(jq -r ".[] | select(.InternalName==\"$internalName\") | .AssemblyVersion" repo.json)
+            if [ "$currentVer" = "$assemblyVersion" ]; then
+              echo "  Already at $assemblyVersion"
+              continue
+            fi
+            echo "  Updating $currentVer -> $assemblyVersion"
+            jq --arg name "$internalName" \
+               --arg ver "$assemblyVersion" \
+               --arg install "$zipUrl" \
+               --arg update "$zipUrl" \
+               --argjson ts "$ts" \
+               'map(if .InternalName==$name then . + {AssemblyVersion:$ver, DownloadLinkInstall:$install, DownloadLinkUpdate:$update, LastUpdate:($ts|tostring)} else . end)' repo.json > repo.json.tmp && mv repo.json.tmp repo.json
+            UPDATED=1
+          done
+          if [ "$UPDATED" -eq 0 ]; then
+            echo "No updates needed."
+            exit 0
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add repo.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update repo.json from plugin releases"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
