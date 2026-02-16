@@ -1,22 +1,22 @@
 [
   {
     "Author": "Rietty, tenyu",
-    "Name": "Party Sort+",
+    "Name": "PSort+",
     "Description": "Sort your party list according to a series of rules built on top of the game's default system. Allowing you to specify based off Duty Instances and Jobs!",
-    "InternalName": "PartySortPlus",
+    "InternalName": "PSortPlus",
     "AssemblyVersion": "1.0.0.0",
     "TestingAssemblyVersion": null,
-    "RepoUrl": "https://github.com/tenyu27/PartySortPlus",
+    "RepoUrl": "https://github.com/tenyu27/PSortPlus",
     "ApplicableVersion": "any",
     "DalamudApiLevel": 14,
     "Punchline": "Never worry about sorting your party again!",
     "IsHide": false,
     "IsTestingExclusive": false,
-    "DownloadLinkInstall": "https://github.com/tenyu27/PartySortPlus/releases/download/v1.0.0/PartySortPlus-v1.0.0.zip",
+    "DownloadLinkInstall": "https://github.com/tenyu27/PSortPlus/releases/download/v1.0.0/PSortPlus-v1.0.0.zip",
     "DownloadLinkTesting": null,
-    "DownloadLinkUpdate": "https://github.com/tenyu27/PartySortPlus/releases/download/v1.0.0/PartySortPlus-v1.0.0.zip",
+    "DownloadLinkUpdate": "https://github.com/tenyu27/PSortPlus/releases/download/v1.0.0/PSortPlus-v1.0.0.zip",
     "LastUpdate": "1739664000",
-    "IconUrl": "https://raw.githubusercontent.com/tenyu27/PartySortPlus/main/PartySortPlus/images/icon.png"
+    "IconUrl": "https://raw.githubusercontent.com/tenyu27/PSortPlus/main/PSortPlus/images/icon.png"
   },
   {
     "Author": "tenyu",
