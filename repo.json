@@ -1,5 +1,24 @@
 [
   {
+    "Author": "Rietty, tenyu",
+    "Name": "Party Sort+",
+    "Description": "Sort your party list according to a series of rules built on top of the game's default system. Allowing you to specify based off Duty Instances and Jobs!",
+    "InternalName": "PartySortPlus",
+    "AssemblyVersion": "1.0.0.0",
+    "TestingAssemblyVersion": null,
+    "RepoUrl": "https://github.com/tenyu27/PartySortPlus",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 14,
+    "Punchline": "Never worry about sorting your party again!",
+    "IsHide": false,
+    "IsTestingExclusive": false,
+    "DownloadLinkInstall": "https://github.com/tenyu27/PartySortPlus/releases/download/v1.0.0/PartySortPlus-v1.0.0.zip",
+    "DownloadLinkTesting": null,
+    "DownloadLinkUpdate": "https://github.com/tenyu27/PartySortPlus/releases/download/v1.0.0/PartySortPlus-v1.0.0.zip",
+    "LastUpdate": "1739664000",
+    "IconUrl": "https://raw.githubusercontent.com/tenyu27/PartySortPlus/main/PartySortPlus/images/icon.png"
+  },
+  {
     "Author": "tenyu",
     "Name": "Easy Party Sort",
     "Description": "Easily sort your party list by dragging and dropping members in the plugin window. Save your preferred order as named presets and switch between them anytime.",
