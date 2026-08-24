@@ -23,7 +23,7 @@
     "Name": "PSort+",
     "Description": "Sort your party list according to a series of rules built on top of the game's default system. Allowing you to specify based off Duty Instances and Jobs!.",
     "InternalName": "PSortPlus",
-    "AssemblyVersion": "1.0.0.0",
+    "AssemblyVersion": "1.0.0.1",
     "TestingAssemblyVersion": null,
     "RepoUrl": "https://github.com/tenyu27/PSortPlus",
     "ApplicableVersion": "any",
